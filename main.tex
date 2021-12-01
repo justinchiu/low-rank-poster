@@ -132,8 +132,8 @@ are commonly used to learn latent discrete representations from observed data.
 However, scaling these models is bottlenecked by the high computational and memory complexity
 of marginalization:
 \begin{itemize}
-\item Hidden Markov Model (HMM): $O(L^2)$
-\item Probabilistic Context-Free Grammar (PCFG): $O(L^3)$
+\item $L$-state Hidden Markov Model (HMM): $O(L^2)$
+\item $L$-state Probabilistic Context-Free Grammar (PCFG): $O(L^3)$
 \end{itemize}
 As prior work has found that scaling the size is necessary for performance,
 we propose a general method for scaling inference in structured models that admit
@@ -141,6 +141,7 @@ exact inference via dynamic programming.
 We:
 \begin{itemize}
 \item Express marginalization as matrix-vector products
+\item Use low-rank matrix products for speedups
 \item Trade off speed and expressivity via rank
 \end{itemize}
 \end{block}
@@ -313,7 +314,7 @@ Marginalization is bottlenecked by
 \item The number of hyperedges
 \item The cost of each matrix-vector product
 \end{itemize}
-We reduce the cost of the latter via a low-rank $R$ factorization.
+We reduce the cost of the latter via a low-rank factorization.
 We can factor a score matrix $\Psi$ into 
 $U\in\R^{L \times R},V\in\R^{L^{|e|}\times R}$:
 \[
@@ -430,8 +431,8 @@ Low-rank HMMs also dominate softmax HMMs on the speed-accuracy frontier.
 
 \begin{block}{PCFG Results}
 %\includegraphics[height=7in]{imgs/hmm/pcfg-speed-accuracy.png}
-Low-rank PCFGs (LPCFG) also achieve similar accuracy at faster speeds,
-but scaling is not as large as LHMMs.
+Low-rank PCFGs (LPCFG) also achieve similar accuracy at faster speeds
+(nonterminals $\mcN$, preterminals $\mcP$)
 \begin{table}
 \centering
 \begin{tabular} {lllrrrr}
